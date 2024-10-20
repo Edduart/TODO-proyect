@@ -1,0 +1,10 @@
+
+
+<h1>Task number: {{taskNumber}}</h1>
+<span>Task tittle: {{taskTittle}}</span>
+
+<div class="container_input">
+  <input (input)="enableButton()" type="text" placeholder="Add new task" [(ngModel)]="taskTittle">
+  <button (click)="sendTask()" [disabled]="buttonIsActive">Add Task</button>
+</div>
+
