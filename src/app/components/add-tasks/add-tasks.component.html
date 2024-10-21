@@ -45,11 +45,11 @@
   <button type="submit" [disabled]="!form.valid">Send</button>
 </form>
 
-<div class="task_container">
+<!--<div class="task_container">
   <h2>Tasks</h2>
   <div class="task" *ngFor="let task of tasks">
     <span [ngClass]="{'underline': task.completed}" [appTaskStatus]="task.completed">{{ task.title }}</span>
     <input class="task_checker" type="checkbox" [checked]="task.completed" (change)="completeTask(task)"/>
     <button class="task_delete" (click)="delete(task.id)" [appTaskConfirmDelete]="task.title">Delete</button>
   </div>
-</div>
+</div>-->

@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Task } from '../../models/task.interface';
-
 
 @Component({
   selector: 'app-add-tasks',
@@ -10,6 +14,8 @@ import { Task } from '../../models/task.interface';
 })
 export class AddTasksComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
+
+  @Output() taskAdded: EventEmitter<Task> = new EventEmitter<Task>();
 
   form!: FormGroup;
 
@@ -24,17 +30,18 @@ export class AddTasksComponent implements OnInit {
 
   sendTask(): void {
     if (this.form.valid) {
+      const newTask: Task = {
+        id: Math.floor(Math.random() * 1000),
+        title: this.form.value.title,
+        completed: false,
+      };
+      this.taskAdded.emit(newTask);
+      this.form.reset();
       console.log(this.form.value.title);
     }
   }
 
-  tasks: Task[] = [
-    { id: 1, title: 'task 1', completed: false },
-    { id: 2, title: 'task 2', completed: false },
-    { id: 3, title: 'task 3', completed: false },
-    { id: 4, title: 'task 4', completed: false },
-    { id: 5, title: 'task 5', completed: false },
-  ];
+  tasks: Task[] = [];
 
   taskNumber: number = this.tasks.length;
   taskTittle: string = '';
@@ -45,7 +52,7 @@ export class AddTasksComponent implements OnInit {
   }
 
   delete(id: number): void {
-    this.tasks = this.tasks.filter(task=>task.id !== id);
+    this.tasks = this.tasks.filter((task) => task.id !== id);
     this.taskNumber = this.tasks.length;
   }
 
