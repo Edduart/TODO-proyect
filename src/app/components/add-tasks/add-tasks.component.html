@@ -1,10 +1,55 @@
+<h1>Task number: {{ taskNumber }}</h1>
+<span>Task title: {{ form.get("title")?.value }}</span>
+<!-- <form
+<p *ngIf="firstInput.invalid && (firstInput.dirty || firstInput.touched)">
+  <span *ngIf="firstInput.errors?.['required']">This field is required</span>
+</p>
 
 
-<h1>Task number: {{taskNumber}}</h1>
-<span>Task tittle: {{taskTittle}}</span>
+  class="container_input"
+  #firstForm="ngForm"
+  (ngSubmit)="sendData(firstForm)"
+>
+  <input
+    type="text"
+    placeholder="Add new task"
+    [(ngModel)]="taskTittle"
+    #firstInput="ngModel"
+    name="taskTittle"
+    placeholder="Input new task tittle"
+    required
+  />
+  <button [disabled]="!firstInput.valid" type="submit">Add Task</button>
+</form> -->
 
-<div class="container_input">
-  <input (input)="enableButton()" type="text" placeholder="Add new task" [(ngModel)]="taskTittle">
-  <button (click)="sendTask()" [disabled]="buttonIsActive">Add Task</button>
+<div
+  *ngIf="
+    form.get('title')?.invalid &&
+    (form.get('title')?.dirty || form.get('title')?.dirty)
+  "
+>
+  <small *ngIf="form.get('title')?.errors?.['required']">
+    Title is required
+  </small>
+  <small *ngIf="form.get('title')?.errors?.['maxlength']">
+    Max length of title is 10 characters
+  </small>
 </div>
 
+<form class="container_input" [formGroup]="form" (ngSubmit)="sendTask()">
+  <input
+    type="text"
+    placeholder="Input new task tittle"
+    formControlName="title"
+  />
+  <button type="submit" [disabled]="!form.valid">Send</button>
+</form>
+
+<div class="task_container">
+  <h2>Tasks</h2>
+  <div class="task" *ngFor="let task of tasks">
+    <span [ngClass]="{'underline': task.completed}" [appTaskStatus]="task.completed">{{ task.title }}</span>
+    <input class="task_checker" type="checkbox" [checked]="task.completed" (change)="completeTask(task)"/>
+    <button class="task_delete" (click)="delete(task.id)" [appTaskConfirmDelete]="task.title">Delete</button>
+  </div>
+</div>
