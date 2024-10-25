@@ -15,6 +15,8 @@ import { Task } from '../../models/task.interface';
 export class AddTasksComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
+
+
   @Output() taskAdded: EventEmitter<Task> = new EventEmitter<Task>();
 
   form!: FormGroup;
